@@ -491,32 +491,57 @@
 <script>
 const MENU = [
   {
-    category: "Cafés",
+    category: "Hot Coffee",
     items: [
-      { id: "c1", name: "Espresso", price: 45 },
-      { id: "c2", name: "Americano", price: 50 },
-      { id: "c3", name: "Cappuccino", price: 60 },
-      { id: "c4", name: "Latte", price: 65, sub: "Elige sabor", flavors: ["Vainilla", "Caramelo", "Avellana", "Sin sabor"] },
-      { id: "c5", name: "Frappé", price: 75, sub: "Elige sabor", flavors: ["Moka", "Caramelo", "Vainilla", "Matcha"] },
-      { id: "c6", name: "Matcha Latte", price: 75 },
+      { id: "h1", name: "Espresso", price: 45 },
+      { id: "h2", name: "Americano", price: 50 },
+      { id: "h3", name: "Cappuccino", price: 60 },
+      { id: "h4", name: "Latte", price: 65 },
+      { id: "h5", name: "Latte Sabor", price: 70, sub: "Vainilla, caramelo o mocha", flavors: ["Vainilla", "Caramelo", "Mocha"] },
     ]
   },
   {
-    category: "Bebidas Frías",
+    category: "Iced Coffee",
     items: [
-      { id: "b1", name: "Cold Brew", price: 70 },
-      { id: "b2", name: "Agua fresca", price: 40, sub: "Temporada" },
-      { id: "b3", name: "Limonada", price: 50 },
-      { id: "b4", name: "Smoothie", price: 80, sub: "Pregunta disponibles" },
+      { id: "i1", name: "Iced Americano", price: 50 },
+      { id: "i2", name: "Iced Latte", price: 70 },
+      { id: "i3", name: "Iced Latte Sabor", price: 75, sub: "Vainilla, caramelo o mocha", flavors: ["Vainilla", "Caramelo", "Mocha"] },
     ]
   },
   {
-    category: "Para Comer",
+    category: "Frappes",
     items: [
-      { id: "f1", name: "Croissant", price: 55 },
-      { id: "f2", name: "Muffin", price: 50 },
-      { id: "f3", name: "Avocado Toast", price: 90 },
-      { id: "f4", name: "Bagel con queso crema", price: 80 },
+      { id: "f1", name: "Frappe", price: 70, sub: "Chai, café o matcha", flavors: ["Chai", "Café", "Matcha"] },
+    ]
+  },
+  {
+    category: "Tea & Drinks",
+    items: [
+      { id: "t1", name: "Chai Latte", price: 65 },
+      { id: "t2", name: "Matcha Latte", price: 70 },
+      { id: "t3", name: "Hot Chocolate", price: 50 },
+    ]
+  },
+  {
+    category: "Refreshers",
+    items: [
+      { id: "r1", name: "Strawberry Ride", price: 75 },
+      { id: "r2", name: "Peach Tea Pony", price: 75 },
+      { id: "r3", name: "Raspberry Trot", price: 75 },
+    ]
+  },
+  {
+    category: "Signature Drinks",
+    items: [
+      { id: "s1", name: "Sunset Rider", price: 85, sub: "Jugo de naranja, agua tónica y shot de espresso" },
+      { id: "s2", name: "Marwari Chai", price: 85, sub: "Chai con caramelo y shot de espresso" },
+      { id: "s3", name: "Zaino Mocha", price: 85, sub: "Mocha frappe con oreo" },
+    ]
+  },
+  {
+    category: "Postres",
+    items: [
+      { id: "p1", name: "Repostería del día", price: 45 },
     ]
   }
 ];
