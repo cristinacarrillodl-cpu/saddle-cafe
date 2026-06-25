@@ -6,7 +6,7 @@
 <title>Saddle Cafe — Menú</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
     --cream: #F7F3EC;
@@ -18,7 +18,6 @@
     --text: #2C1F14;
     --text-muted: #7A6552;
     --white: #FFFFFF;
-    --border: rgba(139,94,60,0.18);
   }
 
   body {
@@ -28,92 +27,92 @@
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
     padding-bottom: 160px;
-    position: relative;
-    overflow-x: hidden;
-  }
-
-  /* Fondo con patrón de iconos de caballos */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><text x="20" y="50" font-size="40" fill="rgba(139,94,60,0.03)">🐴</text><text x="100" y="120" font-size="35" fill="rgba(139,94,60,0.03)">🤠</text><text x="30" y="160" font-size="38" fill="rgba(139,94,60,0.02)">☕</text></svg>');
-    background-repeat: repeat;
-    background-size: 400px 400px;
-    pointer-events: none;
-    z-index: -1;
   }
 
   header {
-    background: linear-gradient(135deg, var(--saddle-dark) 0%, #3d2714 100%);
-    color: var(--cream);
-    padding: 24px 20px 20px;
+    background: linear-gradient(135deg, #5C3A1E 0%, #3d2714 100%);
+    color: #F0E6D3;
+    padding: 30px 20px 20px;
     text-align: center;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 4px 20px rgba(92, 58, 30, 0.3);
-    border-bottom: 2px solid var(--saddle-light);
-  }
-
-  .logo-area { 
-    margin-bottom: 4px;
-    animation: fadeInDown 0.6s ease;
-  }
-
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
 
   header h1 {
     font-family: 'Playfair Display', serif;
     font-size: 32px;
     font-weight: 600;
-    letter-spacing: 1px;
-    color: #F0E6D3;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin: 10px 0 5px;
   }
 
   header p {
-    font-size: 12px;
-    letter-spacing: 2.5px;
+    font-size: 11px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--saddle-light);
-    margin-top: 4px;
-    font-weight: 500;
   }
 
   .table-badge {
     display: inline-block;
     background: linear-gradient(135deg, var(--saddle-light) 0%, #a87d4f 100%);
-    color: var(--saddle-dark);
+    color: #5C3A1E;
     font-size: 13px;
     font-weight: 600;
-    padding: 6px 16px;
+    padding: 8px 16px;
     border-radius: 25px;
     margin-top: 12px;
-    transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(196, 154, 108, 0.3);
+    box-shadow: 0 2px 8px rgba(139, 94, 60, 0.3);
   }
 
-  .table-badge.fixed {
-    background: linear-gradient(135deg, var(--green) 0%, #2d5029 100%);
-    color: var(--white);
+  .table-selector-container {
+    padding: 20px 20px 24px;
+    background: rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(139, 94, 60, 0.2);
+  }
+
+  .table-prompt {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .table-selector {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .table-chip {
+    padding: 8px 18px;
+    border: 2px solid var(--saddle-light);
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--saddle);
+    background: transparent;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .table-chip.active {
+    background: var(--saddle);
+    color: #F0E6D3;
+    border-color: var(--saddle);
+    box-shadow: 0 4px 12px rgba(139, 94, 60, 0.3);
   }
 
   .section-label {
     padding: 24px 20px 12px;
     font-size: 12px;
-    letter-spacing: 2.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--saddle);
     font-weight: 600;
-    margin-top: 12px;
   }
 
   .menu-item {
@@ -123,48 +122,31 @@
     padding: 16px 20px;
     border-bottom: 1px solid rgba(139, 94, 60, 0.1);
     gap: 12px;
-    transition: all 0.2s;
     background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(10px);
-  }
-
-  .menu-item:active { 
-    background: rgba(196, 154, 108, 0.1);
-    transform: scale(0.98);
+    transition: all 0.2s;
   }
 
   .menu-item:hover {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.7);
   }
-
-  .item-info { flex: 1; }
 
   .item-name {
     font-size: 16px;
     font-weight: 600;
     color: var(--text);
-    line-height: 1.3;
   }
 
   .item-sub {
     font-size: 12px;
     color: var(--text-muted);
     margin-top: 3px;
-    font-style: italic;
-  }
-
-  .item-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
   }
 
   .item-price {
     font-size: 17px;
     font-weight: 700;
     color: var(--saddle-dark);
-    min-width: 60px;
+    min-width: 50px;
     text-align: right;
   }
 
@@ -182,25 +164,18 @@
     background: var(--cream);
     color: var(--saddle);
     font-size: 18px;
-    line-height: 1;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.15s;
-    font-family: 'Inter', sans-serif;
     font-weight: 600;
   }
 
   .qty-btn:active { 
     background: var(--saddle); 
-    color: var(--cream); 
+    color: var(--cream);
     transform: scale(0.9);
-    box-shadow: 0 2px 8px rgba(139, 94, 60, 0.3);
-  }
-
-  .qty-btn:hover {
-    box-shadow: 0 2px 8px rgba(139, 94, 60, 0.2);
   }
 
   .qty-num {
@@ -213,66 +188,46 @@
 
   .flavor-select {
     display: none;
-    margin-top: 10px;
     padding: 0 20px 12px;
-    animation: slideDown 0.3s ease;
-  }
-
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    margin-top: 8px;
   }
 
   .flavor-select select {
     width: 100%;
     padding: 10px 12px;
     border: 2px solid var(--saddle-light);
-    border-radius: 10px;
-    background: var(--white);
+    border-radius: 8px;
+    background: white;
     color: var(--text);
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s;
-  }
-
-  .flavor-select select:focus {
-    outline: none;
-    border-color: var(--saddle-dark);
-    box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.1);
   }
 
   .flavor-select.visible { display: block; }
 
-  .spacer { 
-    height: 2px; 
-    background: linear-gradient(90deg, transparent, var(--saddle-light), transparent);
-    margin: 16px 0;
-  }
-
   .cart-bar {
     position: fixed;
     bottom: 0;
-    left: 0; right: 0;
-    background: linear-gradient(180deg, var(--white) 0%, #f9f7f4 100%);
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, white 0%, #f9f7f4 100%);
     border-top: 2px solid var(--saddle-light);
     padding: 16px 20px 24px;
     z-index: 200;
-    box-shadow: 0 -4px 20px rgba(92, 58, 30, 0.15);
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
   }
 
   .cart-summary {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 14px;
   }
 
   .cart-count {
     font-size: 14px;
     color: var(--text-muted);
-    font-weight: 500;
   }
 
   .cart-total {
@@ -283,85 +238,57 @@
 
   .order-btn {
     width: 100%;
-    background: linear-gradient(135deg, var(--saddle-dark) 0%, #3d2714 100%);
-    color: var(--cream);
+    background: linear-gradient(135deg, #5C3A1E 0%, #3d2714 100%);
+    color: #F0E6D3;
     border: none;
-    border-radius: 16px;
+    border-radius: 14px;
     padding: 16px;
     font-family: 'Playfair Display', serif;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
     cursor: pointer;
-    letter-spacing: 0.5px;
     transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(92, 58, 30, 0.3);
-    text-transform: uppercase;
-  }
-
-  .order-btn:active { 
-    background: var(--saddle); 
-    transform: scale(0.96);
-    box-shadow: 0 2px 8px rgba(92, 58, 30, 0.3);
+    box-shadow: 0 4px 12px rgba(92, 58, 30, 0.3);
   }
 
   .order-btn:hover {
-    box-shadow: 0 6px 20px rgba(92, 58, 30, 0.4);
+    box-shadow: 0 6px 18px rgba(92, 58, 30, 0.4);
     transform: translateY(-2px);
   }
 
-  .order-btn:disabled { 
-    opacity: 0.5; 
-    cursor: default; 
-    transform: none;
+  .order-btn:active {
+    transform: scale(0.98);
+  }
+
+  .order-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .success-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(92,58,30,0.9);
-    backdrop-filter: blur(4px);
+    background: rgba(92, 58, 30, 0.9);
     z-index: 999;
     align-items: center;
     justify-content: center;
-    animation: fadeIn 0.3s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
   }
 
   .success-overlay.show { display: flex; }
 
   .success-card {
-    background: linear-gradient(135deg, var(--cream) 0%, #f5f0e8 100%);
-    border-radius: 24px;
+    background: var(--cream);
+    border-radius: 20px;
     padding: 48px 40px;
     text-align: center;
     max-width: 360px;
     width: 90%;
-    box-shadow: 0 20px 60px rgba(92, 58, 30, 0.3);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     border: 2px solid var(--saddle-light);
-    animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
-  @keyframes popIn {
-    0% { opacity: 0; transform: scale(0.8); }
-    100% { opacity: 1; transform: scale(1); }
-  }
-
-  .success-icon {
-    font-size: 64px;
-    display: block;
-    margin-bottom: 16px;
-    animation: bounce 0.6s ease;
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
+  .success-icon { font-size: 64px; margin-bottom: 16px; }
 
   .success-card h2 {
     font-family: 'Playfair Display', serif;
@@ -377,73 +304,21 @@
   }
 
   .success-card button {
-    margin-top: 28px;
-    background: linear-gradient(135deg, var(--saddle-dark) 0%, #3d2714 100%);
-    color: var(--cream);
+    margin-top: 24px;
+    background: linear-gradient(135deg, #5C3A1E 0%, #3d2714 100%);
+    color: #F0E6D3;
     border: none;
-    border-radius: 14px;
-    padding: 14px 36px;
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
+    border-radius: 12px;
+    padding: 12px 32px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 4px 12px rgba(92, 58, 30, 0.2);
   }
 
   .success-card button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(92, 58, 30, 0.3);
-  }
-
-  .table-selector-container {
-    padding: 20px 20px 24px;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(139, 94, 60, 0.1);
-    animation: fadeInDown 0.6s ease;
-  }
-
-  .table-selector {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 14px;
-    justify-content: center;
-  }
-
-  .table-chip {
-    padding: 8px 18px;
-    border: 2px solid var(--saddle-light);
-    border-radius: 25px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    color: var(--saddle);
-    background: transparent;
-    transition: all 0.2s;
-    font-family: 'Inter', sans-serif;
-    text-transform: uppercase;
-  }
-
-  .table-chip.active {
-    background: var(--saddle);
-    color: var(--cream);
-    border-color: var(--saddle);
-    box-shadow: 0 4px 12px rgba(139, 94, 60, 0.3);
-    transform: scale(1.05);
-  }
-
-  .table-chip:active { transform: scale(0.95); }
-
-  .table-chip:hover:not(.active) {
-    background: rgba(139, 94, 60, 0.1);
-  }
-
-  .table-prompt {
-    font-size: 14px;
-    color: var(--text-muted);
-    font-weight: 500;
   }
 
   .connection-banner {
@@ -454,25 +329,15 @@
     padding: 10px;
     font-size: 13px;
     font-weight: 600;
-    animation: slideDown 0.3s ease;
   }
 
   .connection-banner.show { display: block; }
 
-  .sending { opacity: 0.7; pointer-events: none; }
-
-  .table-selector-container.hidden { display: none; }
-
-  #menuContainer {
-    position: relative;
-    z-index: 1;
-  }
+  .hidden { display: none; }
 
   @media (max-width: 600px) {
     header h1 { font-size: 26px; }
-    .order-btn { font-size: 16px; padding: 14px; }
-    .success-card { padding: 36px 28px; }
-    .item-name { font-size: 15px; }
+    .order-btn { font-size: 15px; padding: 14px; }
   }
 </style>
 </head>
@@ -503,7 +368,6 @@
   };
 
   window._firebaseReady = true;
-  console.log("✅ Firebase conectado");
 </script>
 
 <div class="connection-banner" id="connBanner">
@@ -511,17 +375,15 @@
 </div>
 
 <header>
-  <div class="logo-area">
-    <span style="font-size:48px; display:block; margin-bottom:8px;">🐴</span>
-    <h1>Saddle Cafe</h1>
-    <p>by Club Hípico Sonora</p>
-  </div>
+  <span style="font-size:48px; display:block; margin-bottom:10px;">🐴</span>
+  <h1>Saddle Cafe</h1>
+  <p>by Club Hípico Sonora</p>
   <span class="table-badge" id="headerTableBadge">Selecciona tu mesa</span>
 </header>
 
 <div class="table-selector-container" id="tableSelectorContainer">
   <p class="table-prompt">¿En qué mesa estás?</p>
-  <div class="table-selector" id="tableSelector">
+  <div class="table-selector">
     <button class="table-chip" onclick="selectTable(1)">Mesa 1</button>
     <button class="table-chip" onclick="selectTable(2)">Mesa 2</button>
     <button class="table-chip" onclick="selectTable(3)">Mesa 3</button>
@@ -594,19 +456,15 @@ const MENU = [
 let cart = {};
 let selectedTable = null;
 let flavors = {};
-let tableFixed = false;
 
 function initTableFromURL() {
   const params = new URLSearchParams(window.location.search);
   const mesaParam = params.get('mesa');
-  
   if (mesaParam) {
     const tableNum = parseInt(mesaParam);
     if (tableNum >= 1 && tableNum <= 8) {
-      tableFixed = true;
       selectTable(tableNum);
       document.getElementById('tableSelectorContainer').classList.add('hidden');
-      document.getElementById('headerTableBadge').classList.add('fixed');
     }
   }
 }
@@ -627,7 +485,9 @@ function buildMenu() {
   MENU.forEach((cat, ci) => {
     if (ci > 0) {
       const spacer = document.createElement('div');
-      spacer.className = 'spacer';
+      spacer.style.height = '2px';
+      spacer.style.background = 'linear-gradient(90deg, transparent, #C49A6C, transparent)';
+      spacer.style.margin = '16px 0';
       container.appendChild(spacer);
     }
 
@@ -641,13 +501,30 @@ function buildMenu() {
 
       const row = document.createElement('div');
       row.className = 'menu-item';
+      row.style.display = 'flex';
+      row.style.alignItems = 'flex-start';
+      row.style.justifyContent = 'space-between';
 
       const info = document.createElement('div');
-      info.className = 'item-info';
-      info.innerHTML = `<div class="item-name">${item.name}</div>${item.sub ? `<div class="item-sub">${item.sub}</div>` : ''}`;
+      info.style.flex = '1';
+
+      const name = document.createElement('div');
+      name.className = 'item-name';
+      name.textContent = item.name;
+      info.appendChild(name);
+
+      if (item.sub) {
+        const sub = document.createElement('div');
+        sub.className = 'item-sub';
+        sub.textContent = item.sub;
+        info.appendChild(sub);
+      }
 
       const right = document.createElement('div');
-      right.className = 'item-right';
+      right.style.display = 'flex';
+      right.style.alignItems = 'center';
+      right.style.gap = '12px';
+      right.style.flexShrink = '0';
 
       const price = document.createElement('div');
       price.className = 'item-price';
@@ -689,7 +566,7 @@ function changeQty(id, delta) {
   if (next === 0) {
     delete cart[id];
   } else {
-    const item = findItem(id);
+    const item = MENU.flatMap(cat => cat.items).find(i => i.id === id);
     if (!cart[id]) cart[id] = { name: item.name, price: item.price, qty: 0 };
     cart[id].qty = next;
     if (item.flavors && next > 0) {
@@ -706,14 +583,6 @@ function changeQty(id, delta) {
 
 function setFlavor(id, val) {
   flavors[id] = val;
-}
-
-function findItem(id) {
-  for (const cat of MENU) {
-    const found = cat.items.find(i => i.id === id);
-    if (found) return found;
-  }
-  return null;
 }
 
 function updateCartUI() {
@@ -754,8 +623,7 @@ async function placeOrder() {
 
   const btn = document.getElementById('orderBtn');
   btn.textContent = 'Enviando...';
-  btn.classList.add('sending');
-  document.getElementById('connBanner').classList.remove('show');
+  btn.disabled = true;
 
   try {
     await window._enviarPedidoFirebase(order);
@@ -766,13 +634,10 @@ async function placeOrder() {
     updateCartUI();
     document.getElementById('successOverlay').classList.add('show');
   } catch (err) {
-    console.error("Error al enviar pedido:", err);
-    document.getElementById('connBanner').classList.add('show');
-    const total = Object.values(cart).reduce((s,i)=>s+i.price*i.qty,0).toFixed(2);
-    btn.textContent = `Enviar pedido — $${total}`;
+    alert('Error al enviar. Revisa la conexión.');
+    btn.textContent = 'Enviar pedido a la barra';
+    btn.disabled = false;
   }
-
-  btn.classList.remove('sending');
 }
 
 function closeSuccess() {
