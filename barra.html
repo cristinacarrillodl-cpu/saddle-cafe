@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saddle Cafe — Barra</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F3EC;
+    --tan: #E8DFD0;
+    --saddle: #8B5E3C;
+    --saddle-dark: #5C3A1E;
+    --saddle-light: #C49A6C;
+    --green: #3A6B35;
+    --green-bg: #EAF3E8;
+    --text: #2C1F14;
+    --text-muted: #7A6552;
+    --white: #FFFFFF;
+    --border: rgba(139,94,60,0.18);
+  }
+
+  body {
+    background: #1A0F08;
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--saddle-dark);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--saddle);
+  }
+
+  .header-left { display: flex; align-items: center; gap: 14px; }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #F0E6D3;
+    font-weight: 600;
+  }
+
+  header .sub {
+    font-size: 11px;
+    color: var(--saddle-light);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .live-dot {
+    width: 10px;
+    height: 10px;
+    background: #5DBF6A;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+
+  .live-dot.offline { background: #c0392b; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.85); }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .stat-pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--cream);
+  }
+
+  .stat-pill span {
+    font-weight: 600;
+    color: var(--saddle-light);
+  }
+
+  .sound-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    color: var(--saddle-light);
+    padding: 7px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+
+  .sound-btn:hover { background: rgba(255,255,255,0.08); }
+
+  .time-display {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--saddle-light);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .main {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--saddle-light);
+    font-weight: 500;
+  }
+
+  .section-count {
+    background: var(--saddle);
+    color: var(--cream);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+
+  .orders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .order-card {
+    background: #2A1A10;
+    border: 1.5px solid var(--saddle);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.3s;
+    animation: slideIn 0.35s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .order-card.done {
+    border-color: #3A6B35;
+    opacity: 0.6;
+  }
+
+  .card-header {
+    background: var(--saddle);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .order-card.done .card-header {
+    background: #3A6B35;
+  }
+
+  .card-table {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--cream);
+  }
+
+  .card-time {
+    font-size: 12px;
+    color: rgba(240,230,211,0.7);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .card-items {
+    padding: 14px 16px;
+  }
+
+  .order-item-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 0.5px solid rgba(139,94,60,0.2);
+    gap: 8px;
+  }
+
+  .order-item-row:last-child { border-bottom: none; }
+
+  .order-item-name {
+    font-size: 14px;
+    color: var(--cream);
+    line-height: 1.3;
+  }
+
+  .order-item-flavor {
+    font-size: 11px;
+    color: var(--saddle-light);
+    margin-top: 1px;
+  }
+
+  .order-item-qty {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--saddle-light);
+    flex-shrink: 0;
+    background: rgba(196,154,108,0.15);
+    padding: 1px 8px;
+    border-radius: 20px;
+  }
+
+  .card-footer {
+    padding: 12px 16px;
+    border-top: 0.5px solid rgba(139,94,60,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .elapsed {
+    font-size: 12px;
+    color: var(--saddle-light);
+  }
+
+  .done-btn {
+    background: var(--saddle);
+    color: var(--cream);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .done-btn:hover { background: #6B4128; }
+  .done-btn:active { transform: scale(0.96); }
+
+  .done-btn.completed {
+    background: transparent;
+    border: 1px solid #3A6B35;
+    color: #7DBF82;
+    cursor: default;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(196,154,108,0.4);
+    grid-column: 1 / -1;
+  }
+
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; display: block; }
+  .empty-state p { font-size: 15px; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(139,94,60,0.2);
+    margin: 8px 0 24px;
+  }
+
+  .new-alert {
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    background: var(--saddle);
+    color: var(--cream);
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    z-index: 999;
+    animation: alertIn 0.3s ease;
+    display: none;
+  }
+
+  @keyframes alertIn {
+    from { transform: translateX(40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  .clear-btn {
+    background: transparent;
+    border: 1px solid rgba(139,94,60,0.4);
+    border-radius: 8px;
+    color: var(--saddle-light);
+    padding: 4px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    margin-left: auto;
+    transition: all 0.2s;
+  }
+
+  .clear-btn:hover { background: rgba(139,94,60,0.2); }
+
+  @media (max-width: 768px) {
+    header { flex-direction: column; gap: 12px; }
+    .header-right { justify-content: center; }
+    .orders-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, update, query, orderByChild, limitToLast }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBzP41R5gvKoQ-OjCTVA41MoJqMQ9ZOhGY",
+    authDomain: "saddle-cafe-hmo.firebaseapp.com",
+    databaseURL: "https://saddle-cafe-hmo-default-rtdb.firebaseio.com",
+    projectId: "saddle-cafe-hmo",
+    storageBucket: "saddle-cafe-hmo.firebasestorage.app",
+    messagingSenderId: "655577684903",
+    appId: "1:655577684903:web:65fc7f3240e4a85604b482",
+    measurementId: "G-6SGT3KLSN4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  let isFirstLoad = true;
+
+  const pedidosRef = query(ref(db, 'pedidos'), orderByChild('timestamp'), limitToLast(50));
+
+  onValue(pedidosRef, (snapshot) => {
+    const data = snapshot.val();
+    const orders = [];
+
+    if (data) {
+      Object.entries(data).forEach(([key, val]) => {
+        orders.push({ firebaseKey: key, ...val });
+      });
+      orders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    }
+
+    if (!isFirstLoad) {
+      const newPending = orders.filter(o =>
+        o.status === 'pendiente' && !window._knownKeys.has(o.firebaseKey)
+      );
+      if (newPending.length > 0) {
+        playAlert();
+        showAlert();
+      }
+    }
+
+    orders.forEach(o => window._knownKeys.add(o.firebaseKey));
+    isFirstLoad = false;
+
+    window._allOrders = orders;
+    renderOrders(orders);
+
+    document.getElementById('liveDot').classList.remove('offline');
+  }, (error) => {
+    console.error("Error Firebase:", error);
+    document.getElementById('liveDot').classList.add('offline');
+  });
+
+  window._markDoneFirebase = async function(firebaseKey) {
+    const orderRef = ref(db, 'pedidos/' + firebaseKey);
+    await update(orderRef, { status: 'listo' });
+  };
+
+  window._archiveCompleted = async function() {
+    const done = (window._allOrders || []).filter(o => o.status === 'listo');
+    const updates = {};
+    done.forEach(o => { updates['pedidos/' + o.firebaseKey + '/status'] = 'archivado'; });
+    if (Object.keys(updates).length > 0) {
+      const rootRef = ref(db);
+      await update(rootRef, updates);
+    }
+  };
+
+  window._firebaseReady = true;
+</script>
+
+<header>
+  <div class="header-left">
+    <span style="font-size:28px;">🐴</span>
+    <div>
+      <h1>Saddle Cafe — Barra</h1>
+      <div class="sub">Panel de pedidos</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="live-dot" id="liveDot"></div>
+    <div class="stat-pill">Pendientes: <span id="pendingCount">0</span></div>
+    <div class="stat-pill">Hoy: <span id="todayCount">0</span></div>
+    <button class="sound-btn" onclick="toggleSound()" id="soundBtn">🔔 Sonido activado</button>
+    <div class="time-display" id="clockDisplay">--:--</div>
+  </div>
+</header>
+
+<div class="main">
+  <div class="section-header">
+    <div class="live-dot"></div>
+    <div class="section-title">Pedidos activos</div>
+    <div class="section-count" id="activeCount">0</div>
+  </div>
+
+  <div class="orders-grid" id="activeOrders">
+    <div class="empty-state">
+      <span class="icon">☕</span>
+      <p>Conectando con Firebase...</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-header">
+    <div class="section-title">Completados hoy</div>
+    <div class="section-count" id="doneCount">0</div>
+    <button class="clear-btn" onclick="clearDone()">Limpiar</button>
+  </div>
+
+  <div class="orders-grid" id="doneOrders"></div>
+</div>
+
+<div class="new-alert" id="newAlert">🔔 ¡Nuevo pedido!</div>
+
+<script>
+let soundEnabled = true;
+let audioCtx = null;
+window._knownKeys = new Set();
+window._allOrders = [];
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playAlert() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudioCtx();
+    const tones = [523, 659, 784];
+    tones.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = freq;
+      osc.type = 'sine';
+      const start = ctx.currentTime + i * 0.18;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.35, start + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.3);
+      osc.start(start);
+      osc.stop(start + 0.35);
+    });
+  } catch(e) {}
+}
+
+function showAlert() {
+  const el = document.getElementById('newAlert');
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 3000);
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('soundBtn').textContent = soundEnabled ? '🔔 Sonido activado' : '🔕 Sonido apagado';
+}
+
+function elapsed(orderTime) {
+  if (!orderTime) return '';
+  const [h, m] = orderTime.split(':').map(Number);
+  const now = new Date();
+  const orderDate = new Date();
+  orderDate.setHours(h, m, 0, 0);
+  const diff = Math.floor((now - orderDate) / 60000);
+  if (diff < 1) return 'Justo ahora';
+  if (diff === 1) return 'Hace 1 min';
+  return `Hace ${diff} min`;
+}
+
+async function markDone(firebaseKey) {
+  try {
+    await window._markDoneFirebase(firebaseKey);
+  } catch(e) {
+    alert('Error al actualizar el pedido. Revisa la conexión.');
+  }
+}
+
+async function clearDone() {
+  try {
+    await window._archiveCompleted();
+  } catch(e) {
+    alert('Error al limpiar. Revisa la conexión.');
+  }
+}
+
+function renderOrders(orders) {
+  const active = orders.filter(o => o.status === 'pendiente');
+  const done   = orders.filter(o => o.status === 'listo');
+
+  document.getElementById('pendingCount').textContent = active.length;
+  document.getElementById('todayCount').textContent   = orders.length;
+  document.getElementById('activeCount').textContent  = active.length;
+  document.getElementById('doneCount').textContent    = done.length;
+
+  const activeEl = document.getElementById('activeOrders');
+  activeEl.innerHTML = '';
+  if (active.length === 0) {
+    activeEl.innerHTML = `<div class="empty-state"><span class="icon">☕</span><p>Sin pedidos por el momento...</p></div>`;
+  } else {
+    active.forEach(order => activeEl.appendChild(buildCard(order, false)));
+  }
+
+  const doneEl = document.getElementById('doneOrders');
+  doneEl.innerHTML = '';
+  done.slice(0, 8).forEach(order => doneEl.appendChild(buildCard(order, true)));
+}
+
+function buildCard(order, isDone) {
+  const card = document.createElement('div');
+  card.className = 'order-card' + (isDone ? ' done' : '');
+
+  const itemsHTML = (order.items || []).map(item => `
+    <div class="order-item-row">
+      <div>
+        <div class="order-item-name">${item.name}</div>
+        ${item.flavor ? `<div class="order-item-flavor">${item.flavor}</div>` : ''}
+      </div>
+      <div class="order-item-qty">×${item.qty}</div>
+    </div>
+  `).join('');
+
+  card.innerHTML = `
+    <div class="card-header">
+      <div class="card-table">Mesa ${order.table}</div>
+      <div class="card-time">⏰ ${order.time || ''}</div>
+    </div>
+    <div class="card-items">${itemsHTML}</div>
+    <div class="card-footer">
+      <div class="elapsed">${elapsed(order.time)}</div>
+      ${isDone
+        ? `<button class="done-btn completed">✓ Listo</button>`
+        : `<button class="done-btn" onclick="markDone('${order.firebaseKey}')">✓ Marcar listo</button>`
+      }
+    </div>
+  `;
+  return card;
+}
+
+function updateClock() {
+  document.getElementById('clockDisplay').textContent =
+    new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+setInterval(() => {
+  if (window._allOrders.length > 0) renderOrders(window._allOrders);
+}, 30000);
+
+document.addEventListener('click', () => {
+  try { getAudioCtx().resume(); } catch(e) {}
+}, { once: true });
+</script>
+</body>
+</html>
