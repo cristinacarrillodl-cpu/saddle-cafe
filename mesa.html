@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saddle Cafe — Menú</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F3EC;
+    --tan: #E8DFD0;
+    --saddle: #8B5E3C;
+    --saddle-dark: #5C3A1E;
+    --saddle-light: #C49A6C;
+    --green: #4A6741;
+    --text: #2C1F14;
+    --text-muted: #7A6552;
+    --white: #FFFFFF;
+    --border: rgba(139,94,60,0.18);
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 160px;
+  }
+
+  header {
+    background: var(--saddle-dark);
+    color: var(--cream);
+    padding: 24px 20px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo-area { margin-bottom: 4px; }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #F0E6D3;
+  }
+
+  header p {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--saddle-light);
+    margin-top: 2px;
+  }
+
+  .table-badge {
+    display: inline-block;
+    background: var(--saddle-light);
+    color: var(--saddle-dark);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-top: 8px;
+    transition: all 0.3s;
+  }
+
+  .table-badge.fixed {
+    background: var(--green);
+    color: var(--white);
+  }
+
+  .section-label {
+    padding: 20px 20px 8px;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--saddle-light);
+    font-weight: 500;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 0.5px solid var(--border);
+    gap: 12px;
+    transition: background 0.15s;
+  }
+
+  .menu-item:active { background: var(--tan); }
+
+  .item-info { flex: 1; }
+
+  .item-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .item-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .item-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .item-price {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--saddle);
+    min-width: 52px;
+    text-align: right;
+  }
+
+  .qty-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .qty-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--saddle);
+    background: transparent;
+    color: var(--saddle);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .qty-btn:active { background: var(--saddle); color: var(--cream); transform: scale(0.92); }
+
+  .qty-num {
+    font-size: 15px;
+    font-weight: 500;
+    min-width: 18px;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .flavor-select {
+    display: none;
+    margin-top: 8px;
+    padding: 0 20px 12px;
+  }
+
+  .flavor-select select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid var(--saddle-light);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .flavor-select.visible { display: block; }
+
+  .spacer { height: 16px; background: var(--tan); margin: 20px 0 0; border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
+
+  .cart-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    background: var(--white);
+    border-top: 1.5px solid var(--border);
+    padding: 16px 20px 24px;
+    z-index: 200;
+  }
+
+  .cart-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .cart-count {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .cart-total {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .order-btn {
+    width: 100%;
+    background: var(--saddle-dark);
+    color: var(--cream);
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+
+  .order-btn:active { background: var(--saddle); transform: scale(0.98); }
+  .order-btn:disabled { opacity: 0.45; cursor: default; transform: none; }
+
+  .success-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(92,58,30,0.85);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .success-overlay.show { display: flex; }
+
+  .success-card {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 40px 32px;
+    text-align: center;
+    max-width: 320px;
+    width: 90%;
+  }
+
+  .success-icon {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .success-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--saddle-dark);
+    margin-bottom: 8px;
+  }
+
+  .success-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .success-card button {
+    margin-top: 24px;
+    background: var(--saddle-dark);
+    color: var(--cream);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 32px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .table-selector-container {
+    padding: 16px 20px 20px;
+  }
+
+  .table-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .table-chip {
+    padding: 6px 16px;
+    border: 1.5px solid var(--saddle-light);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--saddle);
+    background: transparent;
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .table-chip.active {
+    background: var(--saddle);
+    color: var(--cream);
+    border-color: var(--saddle);
+  }
+
+  .table-chip:active { transform: scale(0.95); }
+
+  .table-prompt {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .connection-banner {
+    display: none;
+    background: #c0392b;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .connection-banner.show { display: block; }
+
+  .sending { opacity: 0.7; pointer-events: none; }
+
+  .table-selector-container.hidden { display: none; }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 22px; }
+    .order-btn { font-size: 15px; padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, push, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBzP41R5gvKoQ-OjCTVA41MoJqMQ9ZOhGY",
+    authDomain: "saddle-cafe-hmo.firebaseapp.com",
+    databaseURL: "https://saddle-cafe-hmo-default-rtdb.firebaseio.com",
+    projectId: "saddle-cafe-hmo",
+    storageBucket: "saddle-cafe-hmo.firebasestorage.app",
+    messagingSenderId: "655577684903",
+    appId: "1:655577684903:web:65fc7f3240e4a85604b482",
+    measurementId: "G-6SGT3KLSN4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  window._enviarPedidoFirebase = async function(order) {
+    const ordersRef = ref(db, 'pedidos');
+    await push(ordersRef, { ...order, timestamp: serverTimestamp() });
+  };
+
+  window._firebaseReady = true;
+  console.log("✅ Firebase conectado");
+</script>
+
+<div class="connection-banner" id="connBanner">
+  ⚠️ Sin conexión — revisa tu internet e intenta de nuevo
+</div>
+
+<header>
+  <div class="logo-area">
+    <span style="font-size:40px; display:block; margin-bottom:6px;">🐴</span>
+    <h1>Saddle Cafe</h1>
+    <p>by Club Hípico Sonora</p>
+  </div>
+  <span class="table-badge" id="headerTableBadge">Selecciona tu mesa</span>
+</header>
+
+<div class="table-selector-container" id="tableSelectorContainer">
+  <p class="table-prompt">¿En qué mesa estás?</p>
+  <div class="table-selector" id="tableSelector">
+    <button class="table-chip" onclick="selectTable(1)">Mesa 1</button>
+    <button class="table-chip" onclick="selectTable(2)">Mesa 2</button>
+    <button class="table-chip" onclick="selectTable(3)">Mesa 3</button>
+    <button class="table-chip" onclick="selectTable(4)">Mesa 4</button>
+    <button class="table-chip" onclick="selectTable(5)">Mesa 5</button>
+    <button class="table-chip" onclick="selectTable(6)">Mesa 6</button>
+    <button class="table-chip" onclick="selectTable(7)">Mesa 7</button>
+    <button class="table-chip" onclick="selectTable(8)">Mesa 8</button>
+  </div>
+</div>
+
+<div id="menuContainer"></div>
+
+<div class="cart-bar">
+  <div class="cart-summary">
+    <span class="cart-count" id="cartCount">0 artículos</span>
+    <span class="cart-total" id="cartTotal">$0.00</span>
+  </div>
+  <button class="order-btn" id="orderBtn" onclick="placeOrder()" disabled>
+    Enviar pedido a la barra
+  </button>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <span class="success-icon">✅</span>
+    <h2>¡Pedido enviado!</h2>
+    <p>Tu orden ya está en camino a la barra.<br>En unos minutos tendrás tus bebidas listas.</p>
+    <button onclick="closeSuccess()">Hacer otro pedido</button>
+  </div>
+</div>
+
+<script>
+const MENU = [
+  { category: "Hot Coffee ☕", items: [
+    { id: "esp", name: "Espresso", price: 45 },
+    { id: "ame", name: "Americano", price: 50 },
+    { id: "cap", name: "Cappuccino", price: 60 },
+    { id: "lat", name: "Latte", price: 65 },
+    { id: "latsab", name: "Latte Sabor", price: 70, flavors: ["Vainilla", "Caramelo", "Mocha"], flavorLabel: "Elige sabor" },
+  ]},
+  { category: "Iced Coffee 🧊", items: [
+    { id: "iame", name: "Iced Americano", price: 50 },
+    { id: "ilat", name: "Iced Latte", price: 70 },
+    { id: "ilatsab", name: "Iced Latte Sabor", price: 75, flavors: ["Vainilla", "Caramelo", "Mocha"], flavorLabel: "Elige sabor" },
+  ]},
+  { category: "Frappes 🥤", items: [
+    { id: "fra", name: "Frappe", price: 70, flavors: ["Chai", "Café", "Matcha"], flavorLabel: "Elige sabor" },
+  ]},
+  { category: "Tea & Drinks 🍵", items: [
+    { id: "cha", name: "Chai Latte", price: 65 },
+    { id: "mat", name: "Matcha Latte", price: 70 },
+    { id: "choc", name: "Hot Chocolate", price: 50 },
+  ]},
+  { category: "Refreshers 🌿", items: [
+    { id: "str", name: "Strawberry Ride", price: 75 },
+    { id: "pea", name: "Peach Tea Pony", price: 75 },
+    { id: "ras", name: "Raspberry Trot", price: 75 },
+  ]},
+  { category: "Signature Drinks ⭐", items: [
+    { id: "sun", name: "Sunset Rider", price: 85, sub: "Naranja, tónica y shot de espresso" },
+    { id: "mar", name: "Marwari Chai", price: 85, sub: "Chai con caramelo y shot de espresso" },
+    { id: "zai", name: "Zaino Mocha", price: 85, sub: "Mocha frappe con Oreo" },
+  ]},
+  { category: "Postres 🍰", items: [
+    { id: "pos", name: "Repostería del día", price: 45 },
+  ]},
+];
+
+let cart = {};
+let selectedTable = null;
+let flavors = {};
+let tableFixed = false;
+
+function initTableFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const mesaParam = params.get('mesa');
+  
+  if (mesaParam) {
+    const tableNum = parseInt(mesaParam);
+    if (tableNum >= 1 && tableNum <= 8) {
+      tableFixed = true;
+      selectTable(tableNum);
+      document.getElementById('tableSelectorContainer').classList.add('hidden');
+      document.getElementById('headerTableBadge').classList.add('fixed');
+    }
+  }
+}
+
+function selectTable(n) {
+  selectedTable = n;
+  document.getElementById('headerTableBadge').textContent = 'Mesa ' + n;
+  document.querySelectorAll('.table-chip').forEach((c, i) => {
+    c.classList.toggle('active', i + 1 === n);
+  });
+  updateCartUI();
+}
+
+function buildMenu() {
+  const container = document.getElementById('menuContainer');
+  container.innerHTML = '';
+
+  MENU.forEach((cat, ci) => {
+    if (ci > 0) {
+      const spacer = document.createElement('div');
+      spacer.className = 'spacer';
+      container.appendChild(spacer);
+    }
+
+    const label = document.createElement('div');
+    label.className = 'section-label';
+    label.textContent = cat.category;
+    container.appendChild(label);
+
+    cat.items.forEach(item => {
+      const wrapper = document.createElement('div');
+
+      const row = document.createElement('div');
+      row.className = 'menu-item';
+
+      const info = document.createElement('div');
+      info.className = 'item-info';
+      info.innerHTML = `<div class="item-name">${item.name}</div>${item.sub ? `<div class="item-sub">${item.sub}</div>` : ''}`;
+
+      const right = document.createElement('div');
+      right.className = 'item-right';
+
+      const price = document.createElement('div');
+      price.className = 'item-price';
+      price.textContent = '$' + item.price;
+
+      const qty = document.createElement('div');
+      qty.className = 'qty-control';
+      qty.innerHTML = `
+        <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+        <span class="qty-num" id="qty_${item.id}">0</span>
+        <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+      `;
+
+      right.appendChild(price);
+      right.appendChild(qty);
+      row.appendChild(info);
+      row.appendChild(right);
+      wrapper.appendChild(row);
+
+      if (item.flavors) {
+        const flavorDiv = document.createElement('div');
+        flavorDiv.className = 'flavor-select';
+        flavorDiv.id = 'flavor_' + item.id;
+        flavorDiv.innerHTML = `<select onchange="setFlavor('${item.id}', this.value)">
+          <option value="">— ${item.flavorLabel} —</option>
+          ${item.flavors.map(f => `<option value="${f}">${f}</option>`).join('')}
+        </select>`;
+        wrapper.appendChild(flavorDiv);
+      }
+
+      container.appendChild(wrapper);
+    });
+  });
+}
+
+function changeQty(id, delta) {
+  const current = cart[id]?.qty || 0;
+  const next = Math.max(0, current + delta);
+  if (next === 0) {
+    delete cart[id];
+  } else {
+    const item = findItem(id);
+    if (!cart[id]) cart[id] = { name: item.name, price: item.price, qty: 0 };
+    cart[id].qty = next;
+    if (item.flavors && next > 0) {
+      document.getElementById('flavor_' + id).classList.add('visible');
+    }
+  }
+  if (next === 0 && document.getElementById('flavor_' + id)) {
+    document.getElementById('flavor_' + id).classList.remove('visible');
+    delete flavors[id];
+  }
+  document.getElementById('qty_' + id).textContent = next;
+  updateCartUI();
+}
+
+function setFlavor(id, val) {
+  flavors[id] = val;
+}
+
+function findItem(id) {
+  for (const cat of MENU) {
+    const found = cat.items.find(i => i.id === id);
+    if (found) return found;
+  }
+  return null;
+}
+
+function updateCartUI() {
+  let total = 0, count = 0;
+  for (const id in cart) {
+    total += cart[id].price * cart[id].qty;
+    count += cart[id].qty;
+  }
+  document.getElementById('cartCount').textContent = count + (count === 1 ? ' artículo' : ' artículos');
+  document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+  const btn = document.getElementById('orderBtn');
+  btn.disabled = count === 0 || !selectedTable;
+  if (!selectedTable && count > 0) {
+    btn.textContent = 'Selecciona tu mesa primero';
+  } else if (count === 0) {
+    btn.textContent = 'Enviar pedido a la barra';
+  } else {
+    btn.textContent = `Enviar pedido — $${total.toFixed(2)}`;
+  }
+}
+
+async function placeOrder() {
+  if (!selectedTable) return;
+
+  const items = [];
+  for (const id in cart) {
+    const entry = { ...cart[id] };
+    if (flavors[id]) entry.flavor = flavors[id];
+    items.push(entry);
+  }
+
+  const order = {
+    table: selectedTable,
+    items,
+    time: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }),
+    status: 'pendiente'
+  };
+
+  const btn = document.getElementById('orderBtn');
+  btn.textContent = 'Enviando...';
+  btn.classList.add('sending');
+  document.getElementById('connBanner').classList.remove('show');
+
+  try {
+    await window._enviarPedidoFirebase(order);
+    cart = {};
+    flavors = {};
+    document.querySelectorAll('.qty-num').forEach(el => el.textContent = '0');
+    document.querySelectorAll('.flavor-select').forEach(el => el.classList.remove('visible'));
+    updateCartUI();
+    document.getElementById('successOverlay').classList.add('show');
+  } catch (err) {
+    console.error("Error al enviar pedido:", err);
+    document.getElementById('connBanner').classList.add('show');
+    const total = Object.values(cart).reduce((s,i)=>s+i.price*i.qty,0).toFixed(2);
+    btn.textContent = `Enviar pedido — $${total}`;
+  }
+
+  btn.classList.remove('sending');
+}
+
+function closeSuccess() {
+  document.getElementById('successOverlay').classList.remove('show');
+}
+
+initTableFromURL();
+buildMenu();
+updateCartUI();
+</script>
+</body>
+</html>
